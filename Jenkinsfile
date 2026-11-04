@@ -8,10 +8,12 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
+        stage('Checkout Main Branch') {
             steps {
-                echo 'Getting code from GitHub'
-                checkout scm
+                echo 'Fetching code from GitHub Main branch'
+
+                git branch: 'main',
+                    url: 'https://github.com/SHASHIKANT61/Playwrite_Testing.git'
             }
         }
 
@@ -21,7 +23,7 @@ pipeline {
             }
         }
 
-        stage('Install Playwright') {
+        stage('Install Playwright Browser') {
             steps {
                 bat 'npx playwright install chromium'
             }
@@ -38,9 +40,11 @@ pipeline {
         always {
             echo 'Playwright execution completed'
         }
+
         success {
             echo 'Tests passed successfully'
         }
+
         failure {
             echo 'Tests failed'
         }
